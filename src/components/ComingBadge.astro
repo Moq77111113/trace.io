@@ -1,0 +1,14 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'ships with v0.1' } = Astro.props;
+---
+
+<span
+  class="inline-flex items-center gap-1 rounded-full bg-accent-soft text-accent-soft-ink font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 align-middle"
+  title="Not yet shipped. Tracked on the MVP launch roadmap."
+>
+  <span class="inline-block size-1 rounded-full bg-accent"></span>
+  {label}
+</span>

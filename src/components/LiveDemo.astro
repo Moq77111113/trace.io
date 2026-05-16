@@ -1,0 +1,70 @@
+---
+import ComingBadge from './ComingBadge.astro';
+import Pill from './Pill.astro';
+---
+
+<section id="demo" class="relative py-24 sm:py-32 border-t border-border">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="flex flex-col gap-3 max-w-2xl">
+      <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+        <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+        See it
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">
+        The live cockpit, in your browser. <ComingBadge label="recording soon" />
+      </h2>
+      <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
+        A short recorded walkthrough of the actual cockpit lands here once we cut it. In the meantime, here's the skeleton: a Gherkin file on the left, scenario list on the right, statuses landing as the run progresses.
+      </p>
+    </div>
+
+    <div class="mt-12 rounded-2xl border border-border bg-surface shadow-pop overflow-hidden">
+      <div class="flex items-center gap-3 border-b border-border px-4 py-3">
+        <span class="size-2.5 rounded-full bg-fail/60"></span>
+        <span class="size-2.5 rounded-full bg-flake/60"></span>
+        <span class="size-2.5 rounded-full bg-pass/60"></span>
+        <span class="ml-2 font-mono text-[11px] text-ink-3 truncate">trace · atlas-web · auth/oidc-login.feature · live run</span>
+        <span class="ml-auto inline-flex items-center gap-1.5 text-[11px] text-ink-3">
+          <span class="inline-block size-1.5 rounded-full bg-pending animate-pulse"></span>
+          placeholder
+        </span>
+      </div>
+
+      <div class="grid md:grid-cols-[1fr_320px] min-h-[420px]">
+        <div class="p-6 font-mono text-[12.5px] leading-7 text-ink-2 border-b md:border-b-0 md:border-r border-border">
+          <div><span style="color:var(--code-tag)">@auth @oidc</span></div>
+          <div><span style="color:var(--code-keyword)">Feature:</span> OIDC Login</div>
+          <div class="h-3"></div>
+          <div><span style="color:var(--code-keyword)">  Scenario:</span> Successful login</div>
+          <div>    <span style="color:var(--code-keyword)">Given</span> I am on the login page</div>
+          <div>    <span style="color:var(--code-keyword)">When</span> I click <span style="color:var(--code-string)">"Continue with SSO"</span></div>
+          <div>    <span style="color:var(--code-keyword)">Then</span> I am redirected to the dashboard</div>
+          <div class="h-3"></div>
+          <div><span style="color:var(--code-keyword)">  Scenario:</span> Logout clears state</div>
+          <div>    <span style="color:var(--code-keyword)">Given</span> I am logged in</div>
+          <div>    <span style="color:var(--code-keyword)">When</span> I click <span style="color:var(--code-string)">"Sign out"</span></div>
+          <div>    <span style="color:var(--code-keyword)">Then</span> I am redirected to the public landing</div>
+        </div>
+
+        <div class="p-5 flex flex-col gap-3 bg-surface-2/40">
+          <div class="font-mono text-[10px] uppercase tracking-wider text-ink-3">Scenarios</div>
+          <div class="flex items-center justify-between text-sm text-ink">
+            <span>Successful login</span>
+            <Pill status="pass" />
+          </div>
+          <div class="flex items-center justify-between text-sm text-ink">
+            <span>Logout clears state</span>
+            <Pill status="run" label="running" />
+          </div>
+          <div class="flex items-center justify-between text-sm text-ink-2">
+            <span>Login fails on bad creds</span>
+            <Pill status="pending" />
+          </div>
+          <div class="mt-auto pt-4 border-t border-border text-[11px] font-mono text-ink-3">
+            12 total · 7 pass · 1 fail · 4 pending
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

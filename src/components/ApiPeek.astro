@@ -1,0 +1,55 @@
+---
+const requestSnippet = `curl -X POST https://your.trace/api/executions/ingest \\
+  -H 'Authorization: Bearer $TRACE_KEY' \\
+  -H 'X-Project-Id: $PROJECT_ID' \\
+  -H 'X-Environment: staging' \\
+  -H 'X-CI-Source: github-actions' \\
+  -H 'X-CI-Branch: main' \\
+  -H 'X-CI-Commit: a4f1c2e' \\
+  --data-binary @cucumber.json`;
+
+const responseSnippet = `201 Created
+{
+  "run_id":            "exe_01HQK8T9X3",
+  "status":            "PASSED",
+  "scenarios_matched": 12,
+  "scenarios_unknown": [],
+  "warnings":          []
+}`;
+---
+
+<section id="api" class="relative py-24 sm:py-32 border-t border-border">
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="flex flex-col gap-3">
+      <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+        <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+        HTTP API
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">
+        One endpoint. cucumber.json in, execution out.
+      </h2>
+      <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
+        Bearer auth, scoped to a project. Headers carry CI metadata (branch, commit, source). The body is the cucumber.json your runner already emits. That's it.
+      </p>
+    </div>
+
+    <div class="mt-10 rounded-xl border border-border bg-surface overflow-hidden shadow-1">
+      <div class="flex items-center gap-2 border-b border-border px-4 py-2.5 font-mono text-[11px] text-ink-3">
+        <span class="text-accent-soft-ink uppercase tracking-wider">POST</span>
+        <span class="text-ink-2">/api/executions/ingest</span>
+      </div>
+      <pre class="px-4 py-4 font-mono text-[12.5px] text-ink-2 overflow-x-auto whitespace-pre">{requestSnippet}</pre>
+    </div>
+
+    <div class="mt-4 rounded-xl border border-border bg-surface-2/40 overflow-hidden">
+      <div class="flex items-center gap-2 border-b border-border px-4 py-2.5 font-mono text-[11px] text-ink-3">
+        <span class="text-pass-ink uppercase tracking-wider">Response</span>
+      </div>
+      <pre class="px-4 py-4 font-mono text-[12.5px] text-ink-2 overflow-x-auto whitespace-pre">{responseSnippet}</pre>
+    </div>
+
+    <p class="mt-6 text-sm text-ink-3 leading-relaxed">
+      Unknown scenarios in the payload come back in <span class="font-mono text-ink-2">scenarios_unknown</span> so your CI can warn instead of silently dropping them. Warnings list non-fatal mismatches (renamed scenarios, drifted steps).
+    </p>
+  </div>
+</section>

@@ -1,0 +1,91 @@
+---
+import ComingBadge from './ComingBadge.astro';
+import { INSTALL_CMD } from '../config';
+
+const ciSnippet = `curl -X POST https://your.trace/api/executions/ingest \\
+  -H 'Authorization: Bearer $TRACE_KEY' \\
+  -H 'X-Project-Id: $PROJECT_ID' \\
+  -H 'X-Environment: ci' \\
+  -H 'X-CI-Source: github-actions' \\
+  -H 'X-CI-Branch: \${{ github.ref_name }}' \\
+  -H 'X-CI-Commit: \${{ github.sha }}' \\
+  --data-binary @cucumber.json`;
+
+const steps = [
+  {
+    n: '01',
+    t: 'Spin it up',
+    body: 'One container for the app, one for Postgres, one for evidence storage. Persistent volumes. SMTP and auth bootstrap via env.',
+    headerLabel: 'shell',
+    code: INSTALL_CMD,
+    badge: 'ships with v0.1',
+  },
+  {
+    n: '02',
+    t: 'Create a project, paste your first .feature',
+    body: 'From the dashboard, create a project, open the editor, paste a Gherkin file. The demo seed gives you a working project to poke at right after install.',
+    headerLabel: null,
+    code: null,
+    badge: null,
+  },
+  {
+    n: '03',
+    t: 'Push runs from CI (optional)',
+    body: 'Generate an API key from Project · Settings · API keys, drop it in your CI secrets, POST cucumber.json on every job. Or skip this and walk runs by hand from the cockpit.',
+    headerLabel: 'github actions',
+    code: ciSnippet,
+    badge: null,
+  },
+  {
+    n: '04',
+    t: "That's it.",
+    body: 'Open the cockpit, watch scenarios land. Attach evidence on failure. Browse the history when something flakes. There is no step five.',
+    headerLabel: null,
+    code: null,
+    badge: null,
+  },
+];
+---
+
+<section id="quickstart" class="relative py-24 sm:py-32 border-t border-border">
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="flex flex-col gap-3">
+      <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+        <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+        Install &amp; use
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">
+        Three steps to a first run.
+      </h2>
+      <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
+        One Docker compose to install, the UI to author, curl to push from CI. No wizard, no onboarding flow.
+      </p>
+    </div>
+
+    <ol class="mt-12 flex flex-col gap-10">
+      {steps.map((s) => (
+        <li class="grid grid-cols-[40px_1fr] gap-5">
+          <div class="font-mono text-2xl font-semibold text-accent tabular-nums leading-none pt-1">{s.n}</div>
+          <div class="flex flex-col gap-3">
+            <h3 class="text-lg font-semibold tracking-tight text-ink">{s.t}</h3>
+            <p class="text-ink-2 leading-relaxed">{s.body}</p>
+
+            {s.code && (
+              <div class={`rounded-lg overflow-hidden border ${s.badge ? 'border-dashed border-accent-ring bg-accent-soft/30' : 'border-border bg-surface'}`}>
+                <div class={`flex items-center justify-between gap-2 border-b px-3 py-2 font-mono text-[11px] ${s.badge ? 'border-accent-ring/40 text-accent-soft-ink' : 'border-border text-ink-3'}`}>
+                  <span>{s.headerLabel}</span>
+                  {s.badge && <ComingBadge label={s.badge} />}
+                </div>
+                <pre class={`px-4 py-3 font-mono text-[12.5px] overflow-x-auto whitespace-pre ${s.badge ? 'text-accent-soft-ink' : 'text-ink-2'}`}>{s.code}</pre>
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="mt-12 text-sm text-ink-3 leading-relaxed border-t border-border pt-6">
+      Hacking on Trace itself instead? The dev-loop (clone, <span class="font-mono">pnpm install</span>, <span class="font-mono">pnpm db:push</span>, <span class="font-mono">pnpm dev</span>) lives in <a href="https://github.com/Moq77111113/trace/blob/main/CONTRIBUTING.md" class="text-accent-soft-ink underline underline-offset-4" target="_blank" rel="noreferrer noopener">CONTRIBUTING.md</a>.
+    </p>
+  </div>
+</section>

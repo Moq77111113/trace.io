@@ -1,0 +1,82 @@
+---
+import Pill from './Pill.astro';
+import ComingBadge from './ComingBadge.astro';
+---
+
+<section id="features" class="relative py-24 sm:py-32 border-t border-border">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="flex flex-col gap-3 max-w-2xl">
+      <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+        <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+        Features
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">
+        What you actually get.
+      </h2>
+      <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
+        Six surfaces. No wizards, no onboarding flow. Each one does one thing.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-4 grid-cols-1 md:grid-cols-6 md:grid-rows-[auto_auto] auto-rows-fr">
+      <article class="md:col-span-3 md:row-span-2 flex flex-col gap-4 rounded-xl border border-border bg-surface p-6 shadow-1">
+        <span class="font-mono text-[10px] uppercase tracking-wider text-ink-3">Status</span>
+        <h3 class="text-xl font-semibold tracking-tight text-ink">Pass, fail, skip, flake. Readable in any light, in any eye.</h3>
+        <p class="text-ink-2 text-sm leading-relaxed">
+          Status is encoded twice: shape and colour. Works in dark mode, under colour blindness, on a projector, in a screenshot. The vocabulary is locked across every surface.
+        </p>
+        <div class="mt-auto flex flex-wrap gap-2 pt-2">
+          <Pill status="pass" />
+          <Pill status="fail" />
+          <Pill status="skip" />
+          <Pill status="pending" />
+          <Pill status="run" label="running" />
+          <Pill status="flake" />
+        </div>
+      </article>
+
+      <article class="md:col-span-3 flex flex-col gap-3 rounded-xl border border-border bg-surface p-6 shadow-1">
+        <span class="font-mono text-[10px] uppercase tracking-wider text-ink-3">Editor</span>
+        <h3 class="text-lg font-semibold tracking-tight text-ink">Plain text. Parse errors inline.</h3>
+        <p class="text-ink-2 text-sm leading-relaxed">
+          .feature files in Monaco with Gherkin highlighting. We validate, we don't generate.
+        </p>
+      </article>
+
+      <article class="md:col-span-3 flex flex-col gap-3 rounded-xl border border-border bg-surface p-6 shadow-1">
+        <span class="font-mono text-[10px] uppercase tracking-wider text-ink-3">API</span>
+        <h3 class="text-lg font-semibold tracking-tight text-ink">One endpoint your CI can call.</h3>
+        <p class="text-ink-2 text-sm leading-relaxed">
+          Bearer auth scoped to a project. Send cucumber.json, get a result. That's the whole integration.
+        </p>
+        <div class="font-mono text-[11px] text-ink-3 mt-1">
+          <span class="text-accent-soft-ink">POST</span> <span class="text-ink-2">/api/executions/ingest</span>
+        </div>
+      </article>
+
+      <article class="md:col-span-2 flex flex-col gap-3 rounded-xl border border-border bg-surface p-6 shadow-1">
+        <span class="font-mono text-[10px] uppercase tracking-wider text-ink-3">Evidence</span>
+        <h3 class="text-base font-semibold tracking-tight text-ink">Screenshots and notes, attached at the scenario.</h3>
+        <p class="text-ink-2 text-sm leading-relaxed">
+          Drop them on the failing scenario. They stay there, served from your own S3 / MinIO.
+        </p>
+      </article>
+
+      <article class="md:col-span-2 flex flex-col gap-3 rounded-xl border border-border bg-surface p-6 shadow-1">
+        <span class="font-mono text-[10px] uppercase tracking-wider text-ink-3">History</span>
+        <h3 class="text-base font-semibold tracking-tight text-ink">Every execution, kept.</h3>
+        <p class="text-ink-2 text-sm leading-relaxed">
+          Filter by date, status, branch, commit. Export to CSV. Compare two executions <ComingBadge label="ships with v0.1" />.
+        </p>
+      </article>
+
+      <article class="md:col-span-2 flex flex-col gap-3 rounded-xl border border-border bg-surface p-6 shadow-1">
+        <span class="font-mono text-[10px] uppercase tracking-wider text-ink-3">Self-hosted</span>
+        <h3 class="text-base font-semibold tracking-tight text-ink">One Node, one Postgres, your machine.</h3>
+        <p class="text-ink-2 text-sm leading-relaxed">
+          MinIO (or any S3) for evidence. No SaaS dependency, no telemetry, no phone-home.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>

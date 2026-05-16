@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moq77111113.github.io/trace.io/sitemap-index.xml

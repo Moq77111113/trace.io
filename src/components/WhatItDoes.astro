@@ -1,0 +1,81 @@
+---
+const steps = [
+  {
+    n: '01',
+    t: 'Write',
+    d: 'Gherkin scenarios in .feature files. Tags, backgrounds, scenario outlines, examples: parsed by @cucumber/gherkin and validated in Monaco as you type.',
+    thumb: `@auth @smoke
+Feature: OIDC Login
+  Scenario: Login
+    Given I am here
+    When I click
+    Then I am in`,
+  },
+  {
+    n: '02',
+    t: 'Organize',
+    d: 'Group features into projects. The folder structure on disk is the structure in the UI. Drag, rename, regroup without touching JSON.',
+    thumb: `atlas-web/
+  auth/
+    oidc-login.feature
+    logout.feature
+  checkout/
+    cart.feature`,
+  },
+  {
+    n: '03',
+    t: 'Run',
+    d: 'Trigger runs by hand from the cockpit, or push cucumber.json via the ingest endpoint from your CI. Trace records the result. It does not schedule, queue, or retry.',
+    thumb: `$ curl -X POST .../api/executions/ingest
+  → execution started
+  → 8 scenarios queued
+
+● Login    1.2s
+● Logout   0.9s
+✕ Refresh  timeout`,
+  },
+  {
+    n: '04',
+    t: 'Keep',
+    d: 'Every execution, every scenario, every attached screenshot: stored, filterable, exportable to CSV. The history is the audit trail.',
+    thumb: `# last 24h
+● 142 executions
+● 96.4% pass
+✕ 4 scenarios failing
+# export
+↓ executions.csv`,
+  },
+];
+---
+
+<section id="how" class="relative py-24 sm:py-32">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="flex flex-col gap-3 max-w-2xl">
+      <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+        <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+        What it does
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">
+        Four things. That's the product.
+      </h2>
+      <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
+        Write Gherkin, organize features, run scenarios, keep history. We're not adding a fifth, and we like it that way.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-12">
+      {steps.map((s) => (
+        <div class="grid gap-6 md:grid-cols-[80px_1fr_minmax(280px,420px)] md:items-start md:gap-10">
+          <div class="font-mono text-[42px] leading-none font-semibold text-ink-mute tabular-nums">
+            <b class="text-accent font-semibold">{s.n}</b>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="text-xl sm:text-2xl font-semibold tracking-tight text-ink">{s.t}</div>
+            <p class="text-ink-2 leading-relaxed max-w-[52ch]">{s.d}</p>
+          </div>
+          <pre class="rounded-lg border border-border bg-surface p-4 font-mono text-[12px] text-ink-2 leading-relaxed overflow-x-auto whitespace-pre">{s.thumb}</pre>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

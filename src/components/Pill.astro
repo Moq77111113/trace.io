@@ -1,0 +1,38 @@
+---
+type Status = 'pass' | 'fail' | 'skip' | 'pending' | 'run' | 'flake';
+
+interface Props {
+  status: Status;
+  label?: string;
+  size?: 'sm' | 'md';
+}
+
+const { status, label = status, size = 'sm' } = Astro.props;
+
+const surfaces: Record<Status, string> = {
+  pass:    'bg-pass-soft text-pass-ink',
+  fail:    'bg-fail-soft text-fail-ink',
+  skip:    'bg-skip-soft text-skip-ink',
+  pending: 'bg-pending-soft text-pending-ink',
+  run:     'bg-run-soft text-run-ink',
+  flake:   'bg-flake-soft text-flake-ink',
+};
+
+const glyphFill: Record<Status, string> = {
+  pass:    'bg-pass',
+  fail:    'bg-fail',
+  skip:    'bg-skip',
+  pending: 'bg-pending',
+  run:     'bg-run',
+  flake:   'bg-flake',
+};
+
+const sizing = size === 'md' ? 'text-[12px] px-2.5 py-1' : 'text-[10.5px] px-2 py-0.5';
+---
+
+<span
+  class={`inline-flex items-center gap-1.5 rounded-full font-mono uppercase tracking-wide ${surfaces[status]} ${sizing}`}
+>
+  <span class={`inline-block size-1.5 rounded-full ${glyphFill[status]}`}></span>
+  {label}
+</span>

@@ -1,0 +1,109 @@
+---
+import Pill from './Pill.astro';
+import ComingBadge from './ComingBadge.astro';
+import { REPO_URL, INSTALL_CMD } from '../config';
+---
+
+<section id="top" class="relative pt-16 pb-24 sm:pt-24 sm:pb-32">
+  <div class="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:items-center">
+
+    <div class="flex flex-col gap-6">
+      <h1 class="font-semibold tracking-tight text-ink text-5xl leading-[1.05] sm:text-6xl lg:text-[5rem]">
+        Tests, <span class="text-accent" style="text-shadow: 0 0 60px var(--accent-ring)">traced.</span>
+      </h1>
+
+      <p class="max-w-[44ch] text-lg leading-relaxed text-ink-2">
+        Write Gherkin scenarios. Organize them into features. Run them, by hand
+        or push from your CI. See what passed. Keep the history. That's the
+        whole product, and that's the point.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href="#quickstart"
+          class="inline-flex items-center gap-2 rounded-md bg-accent text-accent-fg px-4 py-2.5 text-sm font-medium hover:bg-accent-hover transition-colors shadow-2"
+        >
+          Run it locally
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noreferrer noopener"
+          class="inline-flex items-center gap-2 rounded-md border border-border bg-surface text-ink px-4 py-2.5 text-sm font-medium hover:border-border-strong transition-colors"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.74.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.06 11.06 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="rounded-xl border border-border bg-surface shadow-1 overflow-hidden mt-2">
+        <div class="flex items-center justify-between gap-2 border-b border-border px-3 py-2 text-[11px] text-ink-3 font-mono">
+          <span class="flex items-center gap-1.5">
+            <span class="inline-block size-2 rounded-full bg-pending"></span>
+            one-line install
+          </span>
+          <ComingBadge label="ships with v0.1" />
+        </div>
+        <pre class="px-4 py-3 font-mono text-[12.5px] text-ink-2 overflow-x-auto"><span class="text-accent">$</span> {INSTALL_CMD}</pre>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] font-mono text-ink-3">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="inline-block size-1.5 rounded-full bg-pass"></span> self-hosted
+        </span>
+        <span class="inline-flex items-center gap-1.5">
+          <span class="inline-block size-1.5 rounded-full bg-run"></span> one Node + one Postgres
+        </span>
+        <span class="text-ink-mute">MIT · your data, your machine</span>
+      </div>
+    </div>
+
+    <div class="relative">
+      <div class="rounded-2xl border border-border bg-surface shadow-pop overflow-hidden">
+        <div class="flex items-center gap-2 border-b border-border px-4 py-2.5">
+          <span class="size-2.5 rounded-full bg-fail/60"></span>
+          <span class="size-2.5 rounded-full bg-flake/60"></span>
+          <span class="size-2.5 rounded-full bg-pass/60"></span>
+          <span class="ml-3 font-mono text-[11px] text-ink-3 truncate">auth/oidc-login.feature</span>
+        </div>
+        <div class="p-5 font-mono text-[12.5px] leading-7 text-ink-2 min-h-[360px]">
+          <div><span style="color:var(--code-tag)">@auth @oidc @smoke</span></div>
+          <div><span style="color:var(--code-keyword)">Feature:</span> OIDC Login</div>
+          <div class="h-3"></div>
+
+          <div class="flex items-center gap-2">
+            <span class="flex-1"><span style="color:var(--code-keyword)">  Scenario:</span> Successful login</span>
+            <Pill status="pass" />
+          </div>
+          <div>    <span style="color:var(--code-keyword)">Given</span> I am on the login page</div>
+          <div>    <span style="color:var(--code-keyword)">When</span> I click <span style="color:var(--code-string)">"Continue with SSO"</span></div>
+          <div>    <span style="color:var(--code-keyword)">Then</span> I am redirected to the dashboard</div>
+
+          <div class="h-3"></div>
+
+          <div class="flex items-center gap-2">
+            <span class="flex-1"><span style="color:var(--code-keyword)">  Scenario:</span> Login fails on bad creds</span>
+            <Pill status="pass" />
+          </div>
+          <div>    <span style="color:var(--code-keyword)">When</span> I authenticate with an invalid password</div>
+          <div>    <span style="color:var(--code-keyword)">Then</span> I see <span style="color:var(--code-string)">"Authentication failed"</span></div>
+
+          <div class="h-3"></div>
+
+          <div class="flex items-center gap-2">
+            <span class="flex-1"><span style="color:var(--code-keyword)">  Scenario:</span> Logout clears state</span>
+            <Pill status="fail" />
+          </div>
+          <div>    <span style="color:var(--code-keyword)">Given</span> I am logged in</div>
+          <div>    <span style="color:var(--code-keyword)">When</span> I click <span style="color:var(--code-string)">"Sign out"</span></div>
+          <div>    <span style="color:var(--code-keyword)">Then</span> I am redirected to the public landing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

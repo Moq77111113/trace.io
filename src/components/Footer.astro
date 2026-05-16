@@ -1,0 +1,26 @@
+---
+import BrandMark from './BrandMark.astro';
+import { REPO_URL, LANDING_REPO_URL, VERSION } from '../config';
+---
+
+<footer class="border-t border-border bg-surface/30">
+  <div class="mx-auto max-w-6xl px-6 py-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
+    <a href="#top" class="flex items-center gap-2.5 text-ink no-underline">
+      <span class="grid size-[22px] place-items-center rounded-md bg-accent text-accent-fg shrink-0">
+        <BrandMark size={18} />
+      </span>
+      <span class="font-semibold tracking-tight">Trace</span>
+      <span class="font-mono text-[10px] text-ink-mute uppercase tracking-wider">v{VERSION}</span>
+    </a>
+
+    <span class="font-mono text-[12px] text-ink-mute sm:ml-2">MIT · do less, do it well.</span>
+
+    <nav class="sm:ml-auto flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-3">
+      <a href={REPO_URL} target="_blank" rel="noreferrer noopener" class="hover:text-ink transition-colors">GitHub</a>
+      <a href="#how" class="hover:text-ink transition-colors">What it does</a>
+      <a href="#not" class="hover:text-ink transition-colors">Boundaries</a>
+      <a href="#install" class="hover:text-ink transition-colors">Install</a>
+      <a href={LANDING_REPO_URL} target="_blank" rel="noreferrer noopener" class="hover:text-ink transition-colors">This site</a>
+    </nav>
+  </div>
+</footer>

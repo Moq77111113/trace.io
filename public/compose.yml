@@ -1,0 +1,95 @@
+# Trace · self-hosted (v0.1.0-mvp target)
+#
+# Usage:
+#   curl -O https://moq77111113.github.io/trace.io/compose.yml
+#   docker compose -f compose.yml up -d
+#
+# Or, in one shot:
+#   docker compose -f https://moq77111113.github.io/trace.io/compose.yml up -d
+#
+# Before first run, drop a .env file next to this compose:
+#   TRACE_BOOTSTRAP_ADMIN_EMAIL=you@example.com   # first sign-up here becomes admin
+#   TRACE_AUTH_SECRET=...                         # required, generate with: openssl rand -hex 32
+#   ORIGIN=http://localhost:7777                  # set to your public origin in production
+#
+# Optional SSO (Keycloak / Auth0 / any OIDC):
+#   OIDC_DISCOVERY_URL=...
+#   OIDC_CLIENT_ID=...
+#   OIDC_CLIENT_SECRET=...
+
+name: trace
+
+x-trace-env: &trace-env
+  NODE_ENV: "production"
+  PORT: "3000"
+  ORIGIN: "${ORIGIN:-http://localhost:7777}"
+  DATABASE_URL: "postgres://trace:trace@postgres:5432/trace"
+  TRACE_AUTH_SECRET: "${TRACE_AUTH_SECRET}"
+  TRACE_BOOTSTRAP_ADMIN_EMAIL: "${TRACE_BOOTSTRAP_ADMIN_EMAIL:-}"
+  OIDC_DISCOVERY_URL: "${OIDC_DISCOVERY_URL:-}"
+  OIDC_CLIENT_ID: "${OIDC_CLIENT_ID:-}"
+  OIDC_CLIENT_SECRET: "${OIDC_CLIENT_SECRET:-}"
+  S3_ENDPOINT: "http://minio:9000"
+  S3_REGION: "us-east-1"
+  S3_BUCKET: "trace-attachments"
+  S3_ACCESS_KEY: "trace"
+  S3_SECRET_KEY: "tracetrace"
+
+services:
+  app:
+    image: ghcr.io/moq77111113/trace:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    environment: *trace-env
+    ports:
+      - "${TRACE_PORT:-7777}:3000"
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "trace"
+      POSTGRES_PASSWORD: "trace"
+      POSTGRES_DB: "trace"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trace"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: "trace"
+      MINIO_ROOT_PASSWORD: "tracetrace"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 trace tracetrace &&
+      mc mb --ignore-existing local/trace-attachments
+      "
+    restart: "no"
+
+volumes:
+  pgdata:
+  miniodata:

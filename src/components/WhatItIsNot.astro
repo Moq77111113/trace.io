@@ -1,0 +1,52 @@
+---
+const not = [
+  { t: 'a Jira clone',                         d: "We don't replace your tracker. Issues stay where they live." },
+  { t: 'an enterprise QA platform',            d: 'No workflows, no approvals, no role matrices, no "governance."' },
+  { t: 'a CI/CD orchestrator',                 d: "Trace records executions. It doesn't schedule, queue, or retry them." },
+  { t: 'an analytics suite',                   d: 'Pass rates and trends, yes. Dashboards-of-dashboards, no.' },
+  { t: 'a vendor with a sales team',           d: 'No demo calls, no procurement loop, no upsell tier. The repo is the product.' },
+  { t: 'a real-time collaborative editor',     d: 'One person edits a .feature at a time. Git handles the rest.' },
+  { t: 'a workflow engine',                    d: "If you need state machines and approval chains, this isn't it." },
+  { t: 'an "AI-augmented platform"',           d: 'No generators, no copilots in the editor. You write the specs.' },
+];
+---
+
+<section id="not" class="relative py-24 sm:py-32 border-t border-border">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="flex flex-col gap-3 max-w-2xl">
+      <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+        <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+        What it isn't
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink">
+        We say no a lot.
+      </h2>
+      <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
+        The danger isn't missing features. It's rebuilding an obese enterprise tool by accident, one small addition at a time. So here's what Trace will never become.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-4 sm:grid-cols-2">
+      {not.map((n) => (
+        <div class="flex items-start gap-3 rounded-lg border border-border bg-surface p-4">
+          <span class="mt-0.5 grid size-5 place-items-center rounded-full bg-fail-soft text-fail-ink shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </span>
+          <div class="flex flex-col gap-0.5">
+            <div class="text-ink font-medium">Not {n.t}.</div>
+            <div class="text-ink-2 text-sm leading-relaxed">{n.d}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-8 flex flex-wrap items-center gap-4 rounded-xl border border-accent-ring bg-accent-soft px-6 py-5 text-accent-soft-ink">
+      <span class="font-mono text-2xl opacity-60">→</span>
+      <p class="flex-1 min-w-[24ch] text-[15px] leading-relaxed">
+        <b>Do less. Do it extremely well.</b> Every feature carries permanent maintenance cost, UX debt, and complexity. If a request doesn't directly serve <span class="font-mono">write → organize → run → keep</span>, it probably doesn't ship.
+      </p>
+    </div>
+  </div>
+</section>

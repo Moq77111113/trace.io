@@ -1,0 +1,57 @@
+---
+const items = [
+  { s: 'pass',  txt: 'trace · ⌘K command palette opened in 9ms' },
+  { s: 'fail',  txt: 'trace · Toast attempted to spawn, rejected on principle' },
+  { s: 'run',   txt: 'trace · Migration applying on cold boot…' },
+  { s: 'pass',  txt: 'trace · Cockpit J-key jumped to next pending' },
+  { s: 'flake', txt: 'trace · CI clock-skew check flagged as flaky (2 of 9)' },
+  { s: 'pass',  txt: 'trace · CSV export streamed 142 rows in 60ms' },
+  { s: 'skip',  txt: 'trace · OIDC scenario skipped, staging IdP asleep' },
+  { s: 'pass',  txt: 'trace · Distribution bar widths still add to 100%' },
+  { s: 'run',   txt: 'trace · Abort cascade marking 12 remaining as skipped…' },
+  { s: 'pass',  txt: 'trace · Empty state rendered without a spinner ✓' },
+  { s: 'pass',  txt: 'trace · Paraglide loaded fr-FR strings in 4ms' },
+  { s: 'fail',  txt: 'trace · "and then maybe we add AI", declined at design review' },
+] as const;
+
+const dotColor = {
+  pass:  'bg-pass',
+  fail:  'bg-fail',
+  skip:  'bg-skip',
+  run:   'bg-run',
+  flake: 'bg-flake',
+};
+
+const textColor = {
+  pass:  'text-pass-ink',
+  fail:  'text-fail-ink',
+  skip:  'text-skip-ink',
+  run:   'text-run-ink',
+  flake: 'text-flake-ink',
+};
+
+const doubled = [...items, ...items];
+---
+
+<div
+  class="relative overflow-hidden border-y border-border bg-surface/40"
+  aria-hidden="true"
+>
+  <div class="absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-bg to-transparent pointer-events-none"></div>
+  <div class="absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-bg to-transparent pointer-events-none"></div>
+  <div class="flex items-center gap-10 py-3 whitespace-nowrap animate-[tape_30s_linear_infinite] hover:[animation-play-state:paused]">
+    {doubled.map((it) => (
+      <span class={`inline-flex items-center gap-2 font-mono text-[12px] ${textColor[it.s]}`}>
+        <span class={`inline-block size-1.5 rounded-full ${dotColor[it.s]}`}></span>
+        <span>{it.txt}</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes tape {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>
