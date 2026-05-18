@@ -30,7 +30,7 @@ import Pill from './Pill.astro';
         </span>
       </div>
 
-      <div class="grid md:grid-cols-[1fr_320px] min-h-[420px]">
+      <div class="grid grid-cols-[minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_320px] min-h-[420px]">
         <div class="p-6 font-mono text-[12.5px] leading-7 text-ink-2 border-b md:border-b-0 md:border-r border-border">
           <div><span style="color:var(--code-tag)">@auth @oidc</span></div>
           <div><span style="color:var(--code-keyword)">Feature:</span> OIDC Login</div>
