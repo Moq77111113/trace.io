@@ -1,5 +1,6 @@
 ---
 import ComingBadge from './ComingBadge.astro';
+import CodeBlock from './CodeBlock.astro';
 import { REPO_URL, INSTALL_CMD } from '../config';
 ---
 
@@ -21,7 +22,7 @@ import { REPO_URL, INSTALL_CMD } from '../config';
         <span>one-line install</span>
         <ComingBadge label="ships with v0.1" />
       </div>
-      <pre class="px-4 py-3 font-mono text-[13px] text-accent-soft-ink overflow-x-auto">{INSTALL_CMD}</pre>
+      <CodeBlock code={INSTALL_CMD} tone="accent" />
     </div>
 
     <div class="mt-6 flex flex-wrap justify-center gap-3">

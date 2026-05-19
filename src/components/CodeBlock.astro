@@ -1,0 +1,61 @@
+---
+type Props = {
+  code: string;
+  prompt?: boolean;
+  tone?: 'default' | 'accent';
+  size?: 'sm' | 'md';
+};
+
+const { code, prompt = false, tone = 'default', size = 'md' } = Astro.props;
+
+const isAccent = tone === 'accent';
+const textSize = size === 'sm' ? 'text-[12.5px]' : 'text-[13px]';
+const textColor = isAccent ? 'text-accent-soft-ink' : 'text-ink-2';
+const btnHover = isAccent ? 'hover:text-accent-soft-ink' : 'hover:text-ink';
+---
+
+<div class="relative group">
+  <pre class:list={['px-4 py-3 pr-14 font-mono overflow-x-auto whitespace-pre', textSize, textColor]}>{prompt && (<span class="text-accent">$ </span>)}{code}</pre>
+  <button
+    type="button"
+    data-copy={code}
+    aria-label="Copy command"
+    class:list={[
+      'copy-btn absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-1 rounded-md',
+      'border border-border bg-surface/70 backdrop-blur',
+      'text-[11px] font-mono text-ink-3 cursor-pointer',
+      'hover:border-border-strong',
+      'opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity',
+      btnHover,
+    ]}
+  >
+    <span class="copy-label">copy</span>
+  </button>
+</div>
+
+<script>
+  const COPIED_MS = 1500;
+
+  function wireCopyButtons() {
+    document.querySelectorAll<HTMLButtonElement>('button.copy-btn:not([data-wired])').forEach((btn) => {
+      btn.dataset.wired = '1';
+      btn.addEventListener('click', async () => {
+        const text = btn.dataset.copy ?? '';
+        const label = btn.querySelector<HTMLSpanElement>('.copy-label');
+        try {
+          await navigator.clipboard.writeText(text);
+          if (label) {
+            const original = label.textContent;
+            label.textContent = 'copied';
+            window.setTimeout(() => { label.textContent = original; }, COPIED_MS);
+          }
+        } catch {
+          /* clipboard API unavailable (insecure context) — silent */
+        }
+      });
+    });
+  }
+
+  wireCopyButtons();
+  document.addEventListener('astro:page-load', wireCopyButtons);
+</script>
