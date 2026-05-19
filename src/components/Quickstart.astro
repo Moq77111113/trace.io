@@ -1,5 +1,6 @@
 ---
 import ComingBadge from './ComingBadge.astro';
+import CodeBlock from './CodeBlock.astro';
 import { INSTALL_CMD } from '../config';
 
 const ciSnippet = `curl -X POST https://your.trace/api/executions/ingest \\
@@ -76,7 +77,7 @@ const steps = [
                   <span>{s.headerLabel}</span>
                   {s.badge && <ComingBadge label={s.badge} />}
                 </div>
-                <pre class={`px-4 py-3 font-mono text-[12.5px] overflow-x-auto whitespace-pre ${s.badge ? 'text-accent-soft-ink' : 'text-ink-2'}`}>{s.code}</pre>
+                <CodeBlock code={s.code} tone={s.badge ? 'accent' : 'default'} size="sm" />
               </div>
             )}
           </div>
