@@ -6,4 +6,4 @@ export const VERSION = '0.1.0-mvp';
 export const SITE_URL = 'https://moq77111113.github.io/trace.io';
 export const COMPOSE_URL = `${SITE_URL}/compose.yml`;
 
-export const INSTALL_CMD = `docker compose -f ${COMPOSE_URL} up -d`;
+export const INSTALL_CMD = `curl -fsSL ${COMPOSE_URL} | docker compose -f - up -d`;

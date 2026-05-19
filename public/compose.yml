@@ -1,16 +1,14 @@
 # Trace · self-hosted (v0.1.0-mvp target)
 #
-# Usage:
-#   curl -O https://moq77111113.github.io/trace.io/compose.yml
-#   docker compose -f compose.yml up -d
+# One-line install:
+#   curl -fsSL https://moq77111113.github.io/trace.io/compose.yml | docker compose -f - up -d
 #
-# Or, in one shot:
-#   docker compose -f https://moq77111113.github.io/trace.io/compose.yml up -d
+# That spins a working instance immediately. Before exposing it on the
+# network, drop a `.env` next to this compose and overwrite:
 #
-# Before first run, drop a .env file next to this compose:
-#   TRACE_BOOTSTRAP_ADMIN_EMAIL=you@example.com   # first sign-up here becomes admin
-#   TRACE_AUTH_SECRET=...                         # required, generate with: openssl rand -hex 32
-#   ORIGIN=http://localhost:7777                  # set to your public origin in production
+#   TRACE_AUTH_SECRET=$(openssl rand -hex 32)        # ★ rotate before prod
+#   TRACE_BOOTSTRAP_ADMIN_EMAIL=you@example.com      # first sign-up here becomes admin
+#   ORIGIN=https://trace.your-domain.tld             # public origin in production
 #
 # Optional SSO (Keycloak / Auth0 / any OIDC):
 #   OIDC_DISCOVERY_URL=...
@@ -24,8 +22,8 @@ x-trace-env: &trace-env
   PORT: "3000"
   ORIGIN: "${ORIGIN:-http://localhost:7777}"
   DATABASE_URL: "postgres://trace:trace@postgres:5432/trace"
-  TRACE_AUTH_SECRET:  "${TRACE_AUTH_SECRET}"
-  BETTER_AUTH_SECRET: "${TRACE_AUTH_SECRET}"
+  # Replace before exposing the instance — `openssl rand -hex 32`.
+  TRACE_AUTH_SECRET: "${TRACE_AUTH_SECRET:-change-the-secret-for-prod}"
   TRACE_BOOTSTRAP_ADMIN_EMAIL: "${TRACE_BOOTSTRAP_ADMIN_EMAIL:-}"
   OIDC_DISCOVERY_URL: "${OIDC_DISCOVERY_URL:-}"
   OIDC_CLIENT_ID: "${OIDC_CLIENT_ID:-}"
@@ -38,7 +36,7 @@ x-trace-env: &trace-env
 
 services:
   app:
-    image: "ghcr.io/moq77111113/trace:${TRACE_VERSION:-latest}"
+    image: "ghcr.io/moq77111113/trace:${TRACE_VERSION:-main}"
     restart: unless-stopped
     depends_on:
       postgres:
