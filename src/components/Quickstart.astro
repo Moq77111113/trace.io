@@ -4,11 +4,8 @@ import { INSTALL_CMD } from '../config';
 
 const ciSnippet = `curl -X POST https://your.trace/api/executions/ingest \\
   -H 'Authorization: Bearer $TRACE_KEY' \\
-  -H 'X-Project-Id: $PROJECT_ID' \\
-  -H 'X-Environment: ci' \\
-  -H 'X-CI-Source: github-actions' \\
-  -H 'X-CI-Branch: \${{ github.ref_name }}' \\
-  -H 'X-CI-Commit: \${{ github.sha }}' \\
+  -H 'Content-Type: application/json' \\
+  -H 'X-Environment: staging' \\
   --data-binary @cucumber.json`;
 
 const steps = [
