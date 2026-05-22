@@ -1,20 +1,23 @@
 ---
 const requestSnippet = `curl -X POST https://your.trace/api/executions/ingest \\
   -H 'Authorization: Bearer $TRACE_KEY' \\
-  -H 'X-Project-Id: $PROJECT_ID' \\
+  -H 'Content-Type: application/json' \\
   -H 'X-Environment: staging' \\
-  -H 'X-CI-Source: github-actions' \\
-  -H 'X-CI-Branch: main' \\
-  -H 'X-CI-Commit: a4f1c2e' \\
   --data-binary @cucumber.json`;
 
-const responseSnippet = `201 Created
+const responseSnippet = `207 Multi-Status
 {
-  "run_id":            "exe_01HQK8T9X3",
-  "status":            "PASSED",
-  "scenarios_matched": 12,
-  "scenarios_unknown": [],
-  "warnings":          []
+  "status":           "FAILED",
+  "executions": [
+    { "feature_code": "auth-3", "execution_id": "exec_01HQK8T9X3",
+      "status": "PASSED", "scenarios_matched": 4, "matched_via": "code" },
+    { "feature_code": "auth-4", "execution_id": "exec_01HQK8T9X4",
+      "status": "FAILED", "scenarios_matched": 2, "matched_via": "name" }
+  ],
+  "unknown_features": ["Forgot password flow"],
+  "warnings":         [
+    "Feature 'User login' matched by name; add '@trace=auth-3' to the Gherkin for stable matching."
+  ]
 }`;
 ---
 
@@ -29,7 +32,7 @@ const responseSnippet = `201 Created
         One endpoint. cucumber.json in, execution out.
       </h2>
       <p class="text-ink-2 text-base sm:text-lg leading-relaxed">
-        Bearer auth, scoped to a project. Headers carry CI metadata (branch, commit, source). The body is the cucumber.json your runner already emits. That's it.
+        Bearer auth, scoped to a project. One header for the environment. The body is the cucumber.json your runner already emits. That's it.
       </p>
     </div>
 
@@ -49,7 +52,7 @@ const responseSnippet = `201 Created
     </div>
 
     <p class="mt-6 text-sm text-ink-3 leading-relaxed">
-      Unknown scenarios in the payload come back in <span class="font-mono text-ink-2">scenarios_unknown</span> so your CI can warn instead of silently dropping them. Warnings list non-fatal mismatches (renamed scenarios, drifted steps).
+      Unknown features in the payload come back in <span class="font-mono text-ink-2">unknown_features</span> so your CI can warn instead of silently dropping them. Warnings nudge you toward <span class="font-mono text-ink-2">@trace=&lt;code&gt;</span> tags for stable matching across renames.
     </p>
   </div>
 </section>
