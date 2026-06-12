@@ -1,4 +1,4 @@
-# Trace · self-hosted (v0.1.0-mvp target)
+# Trace · self-hosted (v0.1.0)
 #
 # One-line install:
 #   curl -fsSL https://moq77111113.github.io/trace.io/compose.yml | docker compose -f - up -d
